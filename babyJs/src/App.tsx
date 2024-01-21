@@ -1,18 +1,38 @@
 import { useState } from 'react'
 import {Flex, Textarea} from "@chakra-ui/react";
-import {sampleCode, transpileWithDefault} from "./utils/transpile";
+import {sampleCode, transpile} from "./utils/transpile";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { ModalForm } from "./Modal";
 
 function App() {
   const [inputCode, setInputCode] = useState('')
+  const [reservedWordMapping, setReservedWordMapping] = useState<Record<string, string>>(
+    {
+      "=": "equals",
+      if: "vibe_check",
+      else: "big_yikes",
+      "else if": "small_yikes",
+      true: "slayy",
+      false: "cap",
+      null: "ghosting",
+      undefined: "cancelled",
+      throw: "yeet",
+      try: "fk_around",
+      catch: "find_out",
+      const: "straight",
+      let: "let",
+      "===": "simp",
+      "{": "<",
+      "}": ">",
+    }
+  );
   const displayCode = inputCode.length === 0
-    ? transpileWithDefault(sampleCode)
-    : transpileWithDefault(inputCode)
+    ? transpile(sampleCode, reservedWordMapping)
+    : transpile(inputCode, reservedWordMapping)
   const formatted = () => {
     try {
-      prettier.format(displayCode, {
+      return prettier.format(displayCode, {
         parser: "babel",
         plugins: prettierPlugins,
       });
@@ -25,8 +45,9 @@ function App() {
       flexDirection={'column'}
       height='100vh'
       p={4}
+      gap={4}
     >
-      <ModalForm/>
+      <ModalForm reservedWordMapping={reservedWordMapping} setReservedWordMapping={setReservedWordMapping} />
       <Flex gap={4} height='70vh'>
         <Textarea w={'50%'} placeholder={sampleCode} fontSize={'lg'} height='100%' resize='none' value={inputCode}
                   onChange={e => setInputCode(e.target.value)}/>

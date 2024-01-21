@@ -51,11 +51,35 @@ const mapping: Record<string, string> = {
 };
 
 
-// const tsCode = transpileCustomToTS(customCode, mapping);
+const transpile = (code : string, mapping: Record<string, string>) => transpileCustomToTS(code, mapping);
 
 const transpileWithDefault = (customCode: string): string => transpileCustomToTS(customCode, mapping);
 
+interface ReservedWordMapping {
+  "=": string;
+  "if": string;
+  "else": string;
+  "else if": string;
+  "true": string;
+  "false": string;
+  "null": string;
+  "undefined": string;
+  "throw": string;
+  "try": string;
+  "catch": string;
+  "const": string;
+  "let": string;
+  "===": string;
+  "{": string;
+  "}": string;
+}
+
 export {
+  transpile,
   transpileWithDefault,
-  sampleCode
+  sampleCode,
+}
+
+export type {
+  ReservedWordMapping
 }

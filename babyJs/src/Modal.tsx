@@ -7,7 +7,6 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Text,
   FormControl,
   FormLabel,
   Input,
@@ -17,55 +16,40 @@ import {
 } from "@chakra-ui/react";
 
 import { useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
 
-export function ModalForm() {
+type ModalFormProps = {
+  reservedWordMapping: Record<string, string>;
+  setReservedWordMapping: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+}
+
+export function ModalForm({reservedWordMapping, setReservedWordMapping}: ModalFormProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [formData, setFormData] = useState<any>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
-  const values: { [key: string]: string } = {
-    "=": "equals",
-    if: "vibe_check",
-    else: "big_yikes",
-    elseif: "small_yikes",
-    true: "slayy",
-    false: "cap",
-    null: "ghosting",
-    undefined: "cancelled",
-    throw: "yeet",
-    try: "fk_around",
-    catch: "find_out",
-    const: "straight",
-    let: "let",
-    "===": "simp",
-    "{": "<",
-    "}": ">",
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    const { value } = e.target;
+    // setFormData({ ...formData, [name]: value });
+    setReservedWordMapping({...reservedWordMapping, [key]: value})
   };
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
+      <Button onClick={onOpen}>Set Language</Button>
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Reserved Words</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Grid templateColumns="1fr" gap={4}>
-              {Object.entries(values).map(([key, value]) => (
+              {Object.entries(reservedWordMapping).map(([key, value]) => (
                 <GridItem key={key}>
                   <Flex align="center">
                     <FormControl>
                       <FormLabel>{key}</FormLabel>
                     </FormControl>
                     <FormControl>
-                      <Input placeholder={value} />
+                      <Input placeholder={value} onChange={(e) => handleInputChange(e, key)}/>
                     </FormControl>
                   </Flex>
                 </GridItem>
@@ -77,7 +61,6 @@ export function ModalForm() {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
