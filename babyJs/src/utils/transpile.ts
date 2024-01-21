@@ -29,23 +29,33 @@ function transpileCustomToTS(customCode: string, mapping: Record<string, string>
   return tsCode.trim();
 }
 
-const sampleCode = ``;
+const sampleCode = `snuggles x babyTalk 1
+letsPlay y babyTalk 2
+snuggles t babyTalk cutey
+letsPlay f babyTalk nopeyDopey
+gooGooCheck (x gooGooGaaGaa y) {
+  y babyTalk 1
+} tinyBoom (x babyTalk 1) {
+  y babyTalk "a"
+} babyBoom {
+  f babyTalk cutey
+}`;
 
-const mapping: Record<string, string> = {
-  "=": "baby-talk-is",
-  "if": "goo-goo_check",
-  "else": "baby-boom",
-  "else if": "tiny-boom",
+const defaultMapping: Record<string, string> = {
+  "=": "babyTalk",
+  "if": "gooGooCheck",
+  "else": "babyBoom",
+  "else if": "tinyBoom",
   "true": "cutey",
-  "false": "nopey-dopey",
+  "false": "nopeyDopey",
   "null": "blankie",
-  "undefined": "uh-oh",
+  "undefined": "uhOh",
   "throw": "tossie",
-  "try": "baby_steps",
-  "catch": "catchie-catchie",
+  "try": "babySteps",
+  "catch": "catchieCatchie",
   "const": "snuggles",
-  "let": "lets-play",
-  "===": "goo-goo_gaa-gaa",
+  "let": "letsPlay",
+  "===": "gooGooGaaGaa",
   "{": "(",
   "}": ")"
 };
@@ -78,6 +88,7 @@ export {
   transpile,
   transpileWithDefault,
   sampleCode,
+  defaultMapping
 }
 
 export type {
