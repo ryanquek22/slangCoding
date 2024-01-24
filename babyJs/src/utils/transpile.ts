@@ -35,7 +35,7 @@ snuggles t babyTalk cutey
 letsPlay f babyTalk nopeyDopey
 gooGooCheck (x gooGooGaaGaa y) {
   y babyTalk 1
-} tinyBoom (x babyTalk 1) {
+} tinyBoom (x gooGooGaaGaa 1) {
   y babyTalk "a"
 } babyBoom {
   f babyTalk cutey
